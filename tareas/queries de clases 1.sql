@@ -25,8 +25,8 @@ SELECT
 	*
 FROM
 	"Users" u
-LIMIT 2
-OFFSET 2;
+LIMIT 2  -- Limita la cantidad de filas a mostrar (ejemplo: LIMIT 2 solo muestra las primera 2 filas, LIMIT 3 solo muestra las primeras 3).
+OFFSET 2; -- Salta las filas a mostrar (ejemplo: OFFSET 2 va a omitir las primeras 2 filas y se nuestra a partir del 3 registro, si se acompañan con el LIMIT salta las filas a partir del LIMIT establecido)
 
 SELECT
 	count(*)
