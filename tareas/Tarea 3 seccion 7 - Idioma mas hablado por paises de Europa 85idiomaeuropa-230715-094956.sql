@@ -11,6 +11,7 @@ select * from continent;
 Select * from "language";
 
 
+--Mi solucion (Taperfecto)
 
 SELECT
 	DISTINCT b."language" ,
@@ -33,48 +34,30 @@ ORDER BY
 	countrycount DESC -- Lo ordenamos de forma descendente para que traiga primero el registro con mas paises.
 LIMIT 
 	1 ; -- Limitamos las filas a 1 para que solo traiga el registro con mas paises.
+	
+	
+-- Solucion de Fernando Herrera
+	
+SELECT count(*), b.languagecode , b."language"  FROM country a
+INNER JOIN countrylanguage b ON a.code = b.countrycode 
+WHERE a.continent = 5 AND b.isofficial = TRUE 
+GROUP BY b.languagecode , b."language"
+ORDER BY count(*) DESC 
+LIMIT 1 ;
 
 
 
 
 -- Listado de todos los países cuyo idioma oficial es el más hablado de Europa 
 -- (no hacer subquery, tomar el código anterior)
-	
-SELECT 
-	lenguaje ,
-	codigolenguaje,
-	countrycount
-FROM (
-	SELECT
-	DISTINCT b."language" AS lenguaje,
-	b.languagecode AS codigolenguaje,
-	count(*) AS countrycount 
-FROM
-	country a 
-INNER JOIN  
-	countrylanguage b
-ON 
-	a.code = b.countrycode 
-WHERE 
-	b.isofficial = TRUE 
-	AND 
-	a.continent = 5  
-GROUP BY 
-	b."language" ,
-	b.languagecode 
-ORDER BY 
-	countrycount DESC 
-LIMIT 
-	1 
-) AS countrycounts;	
 
-
-
+-- Mi solucion (Ta bien pero podria mejorar)
+-- Sin Subquery
 
 SELECT
 	DISTINCT b."language" AS lenguaje,
 	b.languagecode AS codigolenguaje ,
-	count(*) AS countrycount 
+	a."name" AS country
 FROM
 	country a 
 INNER JOIN  
@@ -84,14 +67,24 @@ ON
 WHERE 
 	b.isofficial = TRUE 
 	AND 
-	a.continent = 5  
+	a.continent = 5 
+	AND 
+	b.languagecode  = 101
 GROUP BY 
 	b."language" ,
-	b.languagecode 
+	b.languagecode ,
+	a."name" 
 ORDER BY 
-	countrycount DESC 
-LIMIT 
-	1 ;
+	country ASC  ;
+
+
+
+
+-- Solucion de Fernando Herrera (El listo directamente todos los datos de la tabla country y con el INNER JOIN los filtro por codigo de lenguaje)
+
+SELECT * FROM country a 
+INNER JOIN  countrylanguage b ON a.code = b.countrycode 
+WHERE a.continent = 5 AND b.isofficial = TRUE AND b.languagecode  = 101 ;
 
 
 
