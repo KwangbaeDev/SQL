@@ -10,10 +10,12 @@ DECLARE
 
 BEGIN 
 	
-	real_percentage = percentage / 100 --5% = 0.05;
+	real_percentage = percentage / 100; --5% = 0.05;
 
 	-- Mantener historico
-	INSERT INTO raise_history ( "date" , employee_id , base_salary , amount , percentage )
+	INSERT 
+		INTO 
+			raise_history (date , employee_id , base_salary, amount, percentage )
 	SELECT
 		CURRENT_DATE AS "date",
 		e.employee_id ,
@@ -28,7 +30,7 @@ BEGIN
 	UPDATE 
 		employees 
 	SET 
-		salary = max_raise( e.employee_id ) * real_percentage + salary ;
+		salary = (max_raise( employee_id ) * real_percentage)+ salary ;
 	
 	COMMIT ;
 
@@ -37,11 +39,20 @@ BEGIN
 	FROM
 		employees e ;
 	
-	RAISE NOTICE 'Afectados 5 empleados', total_employees ;
+	RAISE NOTICE 'Afectados % empleados', total_employees ;
 		
 END;
 $$
 ;
+
+
+
+CALL controlled_raise(10);
+
+
+
+
+
 
 
 
