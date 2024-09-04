@@ -27,7 +27,9 @@ BEGIN
 	VALUES 
 		( user_name, NOW() ) ;
 		
-		RAISE NOTICE 'Ususario o contraseña incorrectos';
+		COMMIT ;
+		
+		RAISE EXCEPTION 'Ususario o contraseña incorrectos';
 	
 	ELSE 	
 	-- En caso de ser correcto actualizamos la columna last_login
